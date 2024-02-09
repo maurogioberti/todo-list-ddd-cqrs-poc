@@ -7,47 +7,31 @@ namespace Poc.TaskHub.CrossCutting.Exceptions
     /// </summary>
     public static class Argument
     {
+        private const string NullValidationExpressionMessage = "The validation expression cannot be null.";
+        private const string NotMemberAccessExpressionMessage = "Expression is not a member access.";
+        private const string ArgumentCannotBeNullMessageFormat = "Argument '{0}' cannot be null.";
+
         /// <summary>
-        /// Throws an <see cref="ArgumentNullException"/> if the specified expression evaluates to null.
+        /// Throws an ArgumentNullException if the result of the specified lambda expression evaluates to null.
+        /// Automatically extracts the parameter name from the lambda expression.
         /// </summary>
-        /// <typeparam name="T">The type of the expression.</typeparam>
-        /// <param name="expression">The expression to evaluate.</param>
+        /// <typeparam name="T">The type of the result of the expression.</typeparam>
+        /// <param name="expression">The lambda expression to evaluate, typically a reference to a variable or parameter.</param>
+        /// <exception cref="ArgumentNullException">Thrown when the result of the expression is null.</exception>
+        /// <exception cref="ArgumentException">Thrown when the expression is not a member access expression.</exception>
         public static void ThrowIfNull<T>(Expression<Func<T>> expression)
         {
-            Evaluate(expression, out var body, out var value);
+            if (expression == null)
+                throw new ArgumentNullException(nameof(expression), NullValidationExpressionMessage);
 
-            ThrowIfNull(value, body.Member.Name);
-        }
+            if (!(expression.Body is MemberExpression memberExpression))
+                throw new ArgumentException(NotMemberAccessExpressionMessage, nameof(expression));
 
-        /// <summary>
-        /// Evaluates the specified expression and retrieves its body and value.
-        /// </summary>
-        /// <typeparam name="T">The type of the expression.</typeparam>
-        /// <param name="expression">The expression to evaluate.</param>
-        /// <param name="body">The body of the expression.</param>
-        /// <param name="value">The value of the expression.</param>
-        private static void Evaluate<T>(Expression<Func<T>> expression, out MemberExpression body, out T value)
-        {
-            body = (MemberExpression)expression.Body;
-            ThrowIfNull(body, nameof(body));
+            var evaluateExpression = expression.Compile();
+            var evaluatedValue = evaluateExpression();
 
-            var compiled = expression.Compile();
-
-            value = compiled();
-        }
-
-        /// <summary>
-        /// Throws an <see cref="ArgumentNullException"/> if the specified object is null.
-        /// </summary>
-        /// <typeparam name="T">The type of the object.</typeparam>
-        /// <param name="obj">The object to check for null.</param>
-        /// <param name="parameterName">The name of the parameter associated with the object.</param>
-        private static void ThrowIfNull<T>(T obj, string parameterName)
-        {
-            if (obj == null)
-            {
-                throw new ArgumentNullException(parameterName);
-            }
+            if (evaluatedValue == null)
+                throw new ArgumentNullException(memberExpression.Member.Name, string.Format(ArgumentCannotBeNullMessageFormat, memberExpression.Member.Name));
         }
     }
 }
