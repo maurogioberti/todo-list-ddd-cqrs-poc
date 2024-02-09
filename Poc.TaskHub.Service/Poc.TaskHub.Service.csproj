@@ -6,4 +6,14 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Lamar" Version="13.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Poc.TaskHub.Business.Queries\Poc.TaskHub.Business.Queries.csproj" />
+    <ProjectReference Include="..\Poc.TaskHub.CrossCutting\Poc.TaskHub.CrossCutting.csproj" />
+    <ProjectReference Include="..\Poc.TaskHub.Eai\Poc.TaskHub.Eai.csproj" />
+  </ItemGroup>
+
 </Project>
