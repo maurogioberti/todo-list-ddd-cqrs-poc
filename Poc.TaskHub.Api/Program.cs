@@ -1,15 +1,22 @@
+using Lamar.Microsoft.DependencyInjection;
+using Poc.TaskHub.Api.Service.Infrastructure;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Replaces Default DI with Lamar for Advanced Registration Scenarios
+builder.Host.UseLamar((context, services) =>
+{
+    services.AddLamar(new ContainerRegistry());
+});
 
+// Add Services
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// HTTP Pipeline Configuration
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -17,7 +24,5 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseAuthorization();
-
 app.MapControllers();
-
 app.Run();

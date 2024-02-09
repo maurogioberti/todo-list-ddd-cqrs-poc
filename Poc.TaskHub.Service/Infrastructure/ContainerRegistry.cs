@@ -11,7 +11,7 @@ namespace Poc.TaskHub.Api.Service.Infrastructure
     /// </summary>
     public class ContainerRegistry : ServiceRegistry
     {
-        private const string AssemblyName = "Poc.TaskHub.Api";
+        private const string AssemblyName = "Poc.TaskHub";
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ContainerRegistry"/> class, setting up auto-registration and explicit registration.

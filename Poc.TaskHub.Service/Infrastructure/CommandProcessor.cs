@@ -15,6 +15,10 @@ namespace Poc.TaskHub.Api.Service.Infrastructure
         /// </summary>
         private readonly IContainer _container;
 
+        private const string HandlerNotFoundErrorMessage = "No command handler registered for type {0}";
+        private const string HandleMethodNotFoundErrorMessage = "Handle method not found on the command handler";
+        private const string HandleMethodName = "Handle";
+
         /// <summary>
         /// Initializes a new instance of the <see cref="CommandProcessor"/> class.
         /// </summary>
@@ -34,9 +38,19 @@ namespace Poc.TaskHub.Api.Service.Infrastructure
         public TResult Process<TResult>(ICommand<TResult> command)
         {
             Argument.ThrowIfNull(() => command);
+
             var handlerType = typeof(ICommandHandler<,>).MakeGenericType(command.GetType(), typeof(TResult));
-            dynamic handler = _container.GetInstance(handlerType);
-            return handler.Handle(command);
+            var handler = _container.GetInstance(handlerType);
+
+            if (handler == null)
+                throw new InvalidOperationException(string.Format(HandlerNotFoundErrorMessage, command.GetType().Name));
+
+            var handleMethod = handlerType.GetMethod(HandleMethodName);
+            if (handleMethod == null)
+                throw new InvalidOperationException(HandleMethodNotFoundErrorMessage);
+
+            var result = handleMethod.Invoke(handler, new object[] { command });
+            return (TResult)result;
         }
     }
 }

@@ -15,6 +15,10 @@ namespace Poc.TaskHub.Api.Service.Infrastructure
         /// </summary>
         private readonly IContainer _container;
 
+        private const string HandlerNotFoundErrorMessage = "No query handler registered for type {0}";
+        private const string HandleMethodNotFoundErrorMessage = "Handle method not found on the query handler";
+        private const string HandleMethodName = "Handle";
+
         /// <summary>
         /// Initializes a new instance of the <see cref="QueryProcessor"/> class.
         /// </summary>
@@ -34,9 +38,19 @@ namespace Poc.TaskHub.Api.Service.Infrastructure
         public TResult Process<TResult>(IQuery<TResult> query)
         {
             Argument.ThrowIfNull(() => query);
+
             var handlerType = typeof(IQueryHandler<,>).MakeGenericType(query.GetType(), typeof(TResult));
-            dynamic handler = _container.GetInstance(handlerType);
-            return handler.Handle(query);
+            var handler = _container.GetInstance(handlerType);
+
+            if (handler == null)
+                throw new InvalidOperationException(string.Format(HandlerNotFoundErrorMessage, query.GetType().Name));
+
+            var handleMethod = handlerType.GetMethod(HandleMethodName);
+            if (handleMethod == null)
+                throw new InvalidOperationException(HandleMethodNotFoundErrorMessage);
+
+            var result = handleMethod.Invoke(handler, new object[] { query });
+            return (TResult)result;
         }
     }
 }
