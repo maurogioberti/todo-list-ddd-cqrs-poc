@@ -7,10 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoFixture" Version="4.18.1" />
     <PackageReference Include="System.ServiceModel.Http" Version="8.0.0" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Poc.TaskHub.Business.Domain\Poc.TaskHub.Business.Domain.csproj" />
     <ProjectReference Include="..\Poc.TaskHub.CrossCutting\Poc.TaskHub.CrossCutting.csproj" />
   </ItemGroup>
 

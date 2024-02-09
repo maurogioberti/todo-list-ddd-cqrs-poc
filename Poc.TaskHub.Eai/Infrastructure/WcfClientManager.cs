@@ -10,7 +10,7 @@ namespace Poc.TaskHub.Eai.Infrstructure
     /// <typeparam name="TClient">The type of the WCF service client.</typeparam>
     public class WcfClientManager<TClient> : IWcfClientManager<TClient> where TClient : class, ICommunicationObject, new()
     {
-        //TODO: This class provides a demonstration of integrating WCF clients in this project, but it's not currently used.
+        // TODO: This class provides a demonstration of integrating WCF clients in this project, but it's not currently used.
 
         /// <summary>
         /// Invokes the specified service operation using the provided service client.

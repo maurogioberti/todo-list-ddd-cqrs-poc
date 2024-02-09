@@ -1,6 +1,5 @@
 @Poc.TaskHub.Api_HostAddress = http://localhost:5022
 
-GET {{Poc.TaskHub.Api_HostAddress}}/weatherforecast/
+### Retrieve all tasks
+GET {{Poc.TaskHub.Api_HostAddress}}/api/tasks
 Accept: application/json
-
-###

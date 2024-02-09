@@ -2,7 +2,7 @@
 using Poc.TaskHub.Business.Commands.Infrastructure.Abstractions;
 using Poc.TaskHub.Business.Queries.Infrastructure.Abstractions;
 using Poc.TaskHub.Eai.Infrstructure;
-using Poc.TaskHub.Eai.Infrstructure.Abstractions;
+using Poc.TaskHub.Service.Infrastructure.Abstractions;
 
 namespace Poc.TaskHub.Api.Service.Infrastructure
 {
@@ -19,11 +19,7 @@ namespace Poc.TaskHub.Api.Service.Infrastructure
         public ContainerRegistry()
         {
             AutoRegisterConventionBasedTypes();
-            // TODO: The following method call is commented out as an example of how to manually register types that do not conform to the auto-registration conventions.
-            // Specifically, this line is an example of how to integrate WCF client dependency injection, which is not utilized in this solution but provided as a proof of concept.
-            // Uncomment and modify this section according to your project's needs for non-conventional type registration.
-
-            //RegisterNonConventionBasedTypes(); 
+            RegisterNonConventionBasedTypes();
         }
 
         /// <summary>
@@ -46,7 +42,12 @@ namespace Poc.TaskHub.Api.Service.Infrastructure
         /// </summary>
         private void RegisterNonConventionBasedTypes()
         {
-            For(typeof(IWcfClientManager<>)).Use(typeof(WcfClientManager<>));
+            For<IQueryProcessor>().Use<QueryProcessor>();
+
+            // TODO: This commented line is a guide for registering types not following auto-registration conventions.
+            // Example shown for integrating WCF client dependency injection, not utilized in this POC.
+            // Uncomment and adjust for non-conventional type registration as needed.
+            // For(typeof(IWcfClientManager<>)).Use(typeof(WcfClientManager<>));
         }
     }
 }
