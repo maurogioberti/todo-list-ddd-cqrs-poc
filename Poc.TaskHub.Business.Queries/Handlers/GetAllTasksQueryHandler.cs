@@ -13,7 +13,11 @@ namespace Poc.TaskHub.Business.Queries.Handlers
         public IEnumerable<TaskDto> Handle(GetAllTasksQuery query)
         {
             var taskDomains = _taskAdapter.GetAll();
-            return taskDomains.Select(x => _taskMapper.Map(x));
+
+            if (taskDomains == null)
+                return null;
+
+            return taskDomains.Select(_taskMapper.Map);
         }
     }
 }

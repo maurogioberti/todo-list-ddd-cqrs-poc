@@ -3,3 +3,7 @@
 ### Retrieve all tasks
 GET {{Poc.TaskHub.Api_HostAddress}}/api/tasks
 Accept: application/json
+
+### Retrieve task by ID
+GET {{Poc.TaskHub.Api_HostAddress}}/api/tasks/{id}
+Accept: application/json

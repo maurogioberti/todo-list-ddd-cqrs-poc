@@ -60,5 +60,40 @@ namespace Poc.TaskHub.Api.Tests.Controllers
             Assert.That(okResult, Is.Not.Null);
             Assert.That(tasks.Count(), Is.EqualTo(returnedTasks.Count()));
         }
+
+        [Test]
+        public void GetById_Task_Not_Found_Should_Return_NotFound()
+        {
+            // Arrange
+            var builder = new TasksControllerBuilder();
+            builder.QueryProcessorMock.Setup(q => q.Process(It.IsAny<GetTaskByIdQuery>())).Returns((TaskDto)null);
+            var controller = builder.Build();
+
+            // Act
+            var result = controller.GetById(1);
+
+            // Assert
+            Assert.That(result.Result, Is.InstanceOf<NotFoundObjectResult>());
+        }
+
+        [Test]
+        public void GetById_Task_Found_Should_Return_Ok()
+        {
+            // Arrange
+            var task = _fixture.Create<TaskDto>();
+            var builder = new TasksControllerBuilder();
+            builder.QueryProcessorMock.Setup(q => q.Process(It.IsAny<GetTaskByIdQuery>())).Returns(task);
+            var controller = builder.Build();
+
+            // Act
+            var result = controller.GetById(task.Id);
+
+            // Assert
+            var okResult = result.Result as OkObjectResult;
+            var returnedTask = okResult.Value as TaskDto;
+
+            Assert.That(okResult, Is.Not.Null);
+            Assert.That(returnedTask, Is.EqualTo(task));
+        }
     }
 }

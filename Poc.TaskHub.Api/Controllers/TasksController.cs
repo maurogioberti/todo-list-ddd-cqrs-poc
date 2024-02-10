@@ -14,6 +14,7 @@ namespace Poc.TaskHub.Api.Controllers
 
         private const string NoTasksFound = "No tasks found.";
         private const string ContentType = "application/json";
+        private const string TaskIdNotFound = "Task with ID {0} not found.";
 
         public TasksController(IQueryProcessor queryProcessor)
         {
@@ -35,6 +36,22 @@ namespace Poc.TaskHub.Api.Controllers
                 return NotFound(NoTasksFound);
 
             return Ok(result);
+        }
+
+        [HttpGet("{id}")]
+        [Produces(ContentType)]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<TaskDto>))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public ActionResult<TaskDto> GetById(int id)
+        {
+            var query = new GetTaskByIdQuery(id);
+            var task = _queryProcessor.Process(query);
+
+            if (task == null)
+                return NotFound(string.Format(TaskIdNotFound, id));
+
+            return Ok(task);
         }
     }
 }

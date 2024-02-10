@@ -12,6 +12,8 @@ namespace Poc.TaskHub.Eai
     {
         private readonly Fixture _fixture = new();
 
+        public Business.Domain.Task Get(int id) => _fixture.Build<Business.Domain.Task>().With(x => x.Id, id).Create();
+
         public IEnumerable<Business.Domain.Task> GetAll() => _fixture.CreateMany<Business.Domain.Task>();
     }
 }

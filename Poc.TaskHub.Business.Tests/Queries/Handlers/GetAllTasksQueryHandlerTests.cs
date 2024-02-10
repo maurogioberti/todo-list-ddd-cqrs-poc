@@ -18,7 +18,7 @@ namespace Poc.TaskHub.Business.Tests.Queries.Handlers
 
             public GetAllTasksQueryHandler Build()
             {
-                return new GetAllTasksQueryHandler(_taskAdapterMock.Object, new TaskMapper());
+                return new GetAllTasksQueryHandler(TaskAdapterMock.Object, new TaskMapper());
             }
         }
 
@@ -29,7 +29,7 @@ namespace Poc.TaskHub.Business.Tests.Queries.Handlers
         {
             // Arrange
             var builder = new GetAllTasksQueryHandlerBuilder();
-            builder.TaskAdapterMock.Setup(a => a.GetAll()).Returns(Enumerable.Empty<Business.Domain.Task>());
+            builder.TaskAdapterMock.Setup(a => a.GetAll()).Returns(Enumerable.Empty<Domain.Task>());
 
             // Act
             var handler = builder.Build();
@@ -41,10 +41,26 @@ namespace Poc.TaskHub.Business.Tests.Queries.Handlers
         }
 
         [Test]
+        public void Handle_Valid_Id_Task_Not_Found_Should_Return_Null()
+        {
+            // Arrange
+            var builder = new GetAllTasksQueryHandlerBuilder();
+            var handler = builder.Build();
+
+            builder.TaskAdapterMock.Setup(x => x.GetAll()).Returns((IEnumerable<Domain.Task>)null);
+
+            // Act
+            var result = handler.Handle(new GetAllTasksQuery());
+
+            // Assert
+            Assert.That(result, Is.Null);
+        }
+
+        [Test]
         public void Handle_Tasks_Found_Should_Return_NonEmpty_Collection()
         {
             // Arrange
-            var tasksDomain = _fixture.CreateMany<Business.Domain.Task>(5);
+            var tasksDomain = _fixture.CreateMany<Domain.Task>(5);
             var builder = new GetAllTasksQueryHandlerBuilder();
             builder.TaskAdapterMock.Setup(a => a.GetAll()).Returns(tasksDomain);
 
