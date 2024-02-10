@@ -5,7 +5,7 @@
     /// This class serves as the foundation for all domain entities, ensuring consistency in the domain model.
     /// </summary>
     /// <typeparam name="T">The type of the ID property.</typeparam>
-    public abstract class DataView<T>
+    public abstract class EntityDto<T>
     {
         /// <summary>
         /// Gets or sets the ID of the domain entity.
@@ -18,16 +18,16 @@
         public string Description { get; set; } = string.Empty;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DataView{T}"/> class.
+        /// Initializes a new instance of the <see cref="EntityDto{T}"/> class.
         /// </summary>
-        protected DataView() { }
+        protected EntityDto() { }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DataView{T}"/> class with the specified ID and description.
+        /// Initializes a new instance of the <see cref="EntityDto{T}"/> class with the specified ID and description.
         /// </summary>
         /// <param name="id">The ID of the domain entity.</param>
         /// <param name="description">The description of the domain entity.</param>
-        protected DataView(T id, string description = default)
+        protected EntityDto(T id, string description = default)
         {
             Id = id;
             Description = description;

@@ -6,8 +6,4 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Poc.TaskHub.Business.Dto\Poc.TaskHub.Business.Dto.csproj" />
-  </ItemGroup>
-
 </Project>

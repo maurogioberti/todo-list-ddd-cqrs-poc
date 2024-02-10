@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Poc.TaskHub.Business.Domain\Poc.TaskHub.Business.Domain.csproj" />
+    <ProjectReference Include="..\Poc.TaskHub.Business.Mappers\Poc.TaskHub.Business.Mappers.csproj" />
     <ProjectReference Include="..\Poc.TaskHub.CrossCutting\Poc.TaskHub.CrossCutting.csproj" />
   </ItemGroup>
 

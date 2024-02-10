@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using Poc.TaskHub.Business.Domain;
+using Poc.TaskHub.Business.Dto;
 using Poc.TaskHub.Business.Queries;
 using Poc.TaskHub.CrossCutting.Exceptions;
 using Poc.TaskHub.Service.Infrastructure.Abstractions;
@@ -23,10 +23,10 @@ namespace Poc.TaskHub.Api.Controllers
 
         [HttpGet]
         [Produces(ContentType)]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<TaskDataView>))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<TaskDto>))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public ActionResult<IEnumerable<TaskDataView>> GetAllTasks()
+        public ActionResult<IEnumerable<TaskDto>> GetAllTasks()
         {
             var query = new GetAllTasksQuery();
             var result = _queryProcessor.Process(query);

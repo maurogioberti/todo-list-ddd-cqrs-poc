@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Poc.TaskHub.Business.Domain\Poc.TaskHub.Business.Domain.csproj" />
     <ProjectReference Include="..\Poc.TaskHub.Business.Dto\Poc.TaskHub.Business.Dto.csproj" />
   </ItemGroup>
 
