@@ -7,7 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Poc.TaskHub.Business.Commands\Poc.TaskHub.Business.Commands.csproj" />
     <ProjectReference Include="..\Poc.TaskHub.Business.Domain\Poc.TaskHub.Business.Domain.csproj" />
     <ProjectReference Include="..\Poc.TaskHub.Business.Validation\Poc.TaskHub.Business.Validation.csproj" />
     <ProjectReference Include="..\Poc.TaskHub.Eai\Poc.TaskHub.Eai.csproj" />
