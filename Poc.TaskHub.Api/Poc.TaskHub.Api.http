@@ -7,3 +7,14 @@ Accept: application/json
 ### Retrieve task by ID
 GET {{Poc.TaskHub.Api_HostAddress}}/api/tasks/{id}
 Accept: application/json
+
+### Create a new task
+POST {{Poc.TaskHub.Api_HostAddress}}/api/tasks
+Content-Type: application/json
+Accept: application/json
+
+{
+  "description": "New task description",
+  "content": "New task content",
+  "isCompleted": false
+}

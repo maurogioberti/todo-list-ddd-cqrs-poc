@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Poc.TaskHub.Business.Commands\Poc.TaskHub.Business.Commands.csproj" />
     <ProjectReference Include="..\Poc.TaskHub.Business.Dto\Poc.TaskHub.Business.Dto.csproj" />
     <ProjectReference Include="..\Poc.TaskHub.Business.Mappers\Poc.TaskHub.Business.Mappers.csproj" />
     <ProjectReference Include="..\Poc.TaskHub.Business.Queries\Poc.TaskHub.Business.Queries.csproj" />

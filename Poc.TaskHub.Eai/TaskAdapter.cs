@@ -15,5 +15,13 @@ namespace Poc.TaskHub.Eai
         public Business.Domain.Task Get(int id) => _fixture.Build<Business.Domain.Task>().With(x => x.Id, id).Create();
 
         public IEnumerable<Business.Domain.Task> GetAll() => _fixture.CreateMany<Business.Domain.Task>();
+
+        public Business.Domain.Task Create(string description, string content, bool isCompleted)
+            => _fixture
+                .Build<Business.Domain.Task>()
+                .With(x => x.Description, description)
+                .With(x => x.Content, content)
+                .With(x => x.IsCompleted, isCompleted)
+                .Create();
     }
 }

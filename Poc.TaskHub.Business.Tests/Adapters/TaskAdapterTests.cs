@@ -35,5 +35,22 @@ namespace Poc.TaskHub.Business.Tests.Adapters
             // Assert
             Assert.That(id, Is.EqualTo(task.Id));
         }
+
+        [Test]
+        public void Create_Should_Return_NonEmpty_Task()
+        {
+            // Arrange
+            var description = _fixture.Create<string>();
+            var content = _fixture.Create<string>();
+            var isCompleted = _fixture.Create<bool>();
+
+            // Act
+            var task = _adapter.Create(description, content, isCompleted);
+
+            // Assert
+            Assert.That(description, Is.EqualTo(task.Description));
+            Assert.That(content, Is.EqualTo(task.Content));
+            Assert.That(isCompleted, Is.EqualTo(task.IsCompleted));
+        }
     }
 }

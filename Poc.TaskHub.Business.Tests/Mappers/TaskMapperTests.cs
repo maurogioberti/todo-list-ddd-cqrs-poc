@@ -31,7 +31,7 @@ namespace Poc.TaskHub.Business.Tests.Mappers
         public void Map_Domain_To_Dto_Should_Return_Correct_Mapping()
         {
             // Arrange
-            var domain = _fixture.Create<Business.Domain.Task>();
+            var domain = _fixture.Create<Domain.Task>();
             var mapper = new TaskMapper();
 
             // Act

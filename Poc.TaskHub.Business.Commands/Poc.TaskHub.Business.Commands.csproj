@@ -10,4 +10,10 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Poc.TaskHub.Business.Dto\Poc.TaskHub.Business.Dto.csproj" />
+    <ProjectReference Include="..\Poc.TaskHub.Business.Validation\Poc.TaskHub.Business.Validation.csproj" />
+    <ProjectReference Include="..\Poc.TaskHub.Eai\Poc.TaskHub.Eai.csproj" />
+  </ItemGroup>
+
 </Project>

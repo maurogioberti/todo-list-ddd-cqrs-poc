@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Poc.TaskHub.Business.Commands;
 using Poc.TaskHub.Business.Dto;
 using Poc.TaskHub.Business.Queries;
 using Poc.TaskHub.CrossCutting.Exceptions;
@@ -11,21 +12,26 @@ namespace Poc.TaskHub.Api.Controllers
     public class TasksController : ControllerBase
     {
         private readonly IQueryProcessor _queryProcessor;
+        private readonly ICommandProcessor _commandProcessor;
+
+        private const string ContentType = "application/json";
 
         private const string NoTasksFound = "No tasks found.";
-        private const string ContentType = "application/json";
         private const string TaskIdNotFound = "Task with ID {0} not found.";
+        private const string UnableToCreateTask = "Unable to create task.";
 
-        public TasksController(IQueryProcessor queryProcessor)
+        public TasksController(IQueryProcessor queryProcessor, ICommandProcessor commandProcessor)
         {
             Argument.ThrowIfNull(() => queryProcessor);
             _queryProcessor = queryProcessor;
+            _commandProcessor = commandProcessor;
         }
 
         [HttpGet]
         [Produces(ContentType)]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<TaskDto>))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public ActionResult<IEnumerable<TaskDto>> GetAll()
         {
@@ -40,8 +46,9 @@ namespace Poc.TaskHub.Api.Controllers
 
         [HttpGet("{id}")]
         [Produces(ContentType)]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<TaskDto>))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(TaskDto))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public ActionResult<TaskDto> GetById(int id)
         {
@@ -52,6 +59,22 @@ namespace Poc.TaskHub.Api.Controllers
                 return NotFound(string.Format(TaskIdNotFound, id));
 
             return Ok(task);
+        }
+
+        [HttpPost]
+        [Produces(ContentType)]
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(TaskDto))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public ActionResult<TaskDto> Create([FromBody] CreateTaskCommand command)
+        {
+            var createdTask = _commandProcessor.Process(command);
+
+            if (createdTask == null || createdTask.Id <= 0)
+                return BadRequest(UnableToCreateTask);
+
+            var resourceLocation = Url.Action(nameof(Create), new { id = createdTask.Id });
+            return Created(resourceLocation, createdTask);
         }
     }
 }
