@@ -26,7 +26,7 @@ namespace Poc.TaskHub.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<TaskDto>))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public ActionResult<IEnumerable<TaskDto>> GetAllTasks()
+        public ActionResult<IEnumerable<TaskDto>> GetAll()
         {
             var query = new GetAllTasksQuery();
             var result = _queryProcessor.Process(query);

@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -18,10 +18,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Poc.TaskHub.Business.Dto\Poc.TaskHub.Business.Dto.csproj" />
-    <ProjectReference Include="..\Poc.TaskHub.Business.Mappers\Poc.TaskHub.Business.Mappers.csproj" />
-    <ProjectReference Include="..\Poc.TaskHub.Business.Queries\Poc.TaskHub.Business.Queries.csproj" />
-    <ProjectReference Include="..\Poc.TaskHub.Eai\Poc.TaskHub.Eai.csproj" />
+    <ProjectReference Include="..\Poc.TaskHub.Api\Poc.TaskHub.Api.csproj" />
+    <ProjectReference Include="..\Poc.TaskHub.Service\Poc.TaskHub.Service.csproj" />
   </ItemGroup>
 
 </Project>
