@@ -77,7 +77,7 @@ namespace Poc.TaskHub.Api.Tests.Controllers
             var controller = builder.Build();
 
             // Act
-            var result = controller.GetById(1);
+            var result = controller.GetById(_fixture.Create<int>());
 
             // Assert
             Assert.That(result.Result, Is.InstanceOf<NotFoundObjectResult>());
