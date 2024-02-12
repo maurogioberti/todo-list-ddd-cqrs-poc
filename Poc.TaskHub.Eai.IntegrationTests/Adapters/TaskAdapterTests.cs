@@ -53,6 +53,7 @@ namespace Poc.TaskHub.Eai.IntegrationTests.Adapters
             var task = _adapter.Create(description, content, isCompleted);
 
             // Assert
+            Assert.That(task.Id, Is.GreaterThan(decimal.Zero));
             Assert.That(description, Is.EqualTo(task.Description));
             Assert.That(content, Is.EqualTo(task.Content));
             Assert.That(isCompleted, Is.EqualTo(task.IsCompleted));
