@@ -23,6 +23,8 @@ namespace Poc.TaskHub.Api.Controllers
         public TasksController(IQueryProcessor queryProcessor, ICommandProcessor commandProcessor)
         {
             Argument.ThrowIfNull(() => queryProcessor);
+            Argument.ThrowIfNull(() => commandProcessor);
+
             _queryProcessor = queryProcessor;
             _commandProcessor = commandProcessor;
         }
